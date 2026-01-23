@@ -5,8 +5,6 @@
 { config, pkgs, ... }:
 
 {
-  services.xserver.videoDrivers = ["nvidia"];
-
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [ "https://cache.nixos-cuda.org" ];
@@ -18,14 +16,18 @@
       ./hardware-configuration.nix
     ];
 
+
+  # Load nvidia driver for Xorg and Wayland
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  # Enable OpenGL
   hardware.graphics = {
     enable = true;
   };
