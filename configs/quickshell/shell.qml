@@ -7,6 +7,10 @@ ShellRoot {
         id: wallpaperSelector
     }
 
+    AudioDeviceSelector {
+        id: audioDeviceSelector
+    }
+
     PanelWindow {
         id: root
 
@@ -84,6 +88,9 @@ ShellRoot {
                 anchors.rightMargin: 10
                 spacing: 8
 
+                AudioWidget {
+                    audioSelector: audioDeviceSelector
+                }
                 CpuWidget {}
                 ClockWidget {}
             }
