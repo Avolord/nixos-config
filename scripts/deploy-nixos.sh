@@ -80,12 +80,8 @@ echo -e "${BLUE}=== Rebuilding NixOS ===${NC}"
 if sudo nixos-rebuild switch; then
     echo
     echo -e "${GREEN}=== System rebuild successful! ===${NC}"
-    echo -e "${GREEN}Backup saved at: ${BACKUP_DIR}${NC}"
 else
     echo
     echo -e "${RED}=== Build failed! ===${NC}"
-    echo -e "${YELLOW}Restoring from backup...${NC}"
-    sudo cp -r ${BACKUP_DIR}/* ${NIXOS_DIR}/
-    echo -e "${YELLOW}Backup restored. Your previous configuration is still active.${NC}"
     exit 1
 fi
