@@ -1,2 +1,4 @@
 singleton ColorService 1.0 ColorService.qml
 WallpaperSelector 1.0 WallpaperSelector.qml
+ClockWidget 1.0 ClockWidget.qml
+CpuWidget 1.0 CpuWidget.qml

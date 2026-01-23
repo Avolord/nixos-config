@@ -51,7 +51,7 @@ ShellRoot {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 10
-                width: 80
+                width: 28
                 height: 22
                 radius: 4
                 color: wallpaperMouseArea.containsMouse ? Qt.rgba(
@@ -63,9 +63,10 @@ ShellRoot {
 
                 Text {
                     anchors.centerIn: parent
-                    text: "Wallpaper"
+                    text: "\uf03e" // fa-image
                     color: ColorService.foregroundSurface
-                    font.pixelSize: 12
+                    font.family: "FiraCode Nerd Font"
+                    font.pixelSize: 14
                 }
 
                 MouseArea {
@@ -76,10 +77,15 @@ ShellRoot {
                 }
             }
 
-            Text {
-                anchors.centerIn: parent
-                text: "Themed Panel"
-                color: ColorService.foregroundSurface
+            // Right side widgets
+            Row {
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 10
+                spacing: 8
+
+                CpuWidget {}
+                ClockWidget {}
             }
         }
     }
