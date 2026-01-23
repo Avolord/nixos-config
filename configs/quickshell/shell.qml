@@ -1,7 +1,19 @@
-import Quickshell
+import Quickshell // for PanelWindow
+import QtQuick // for Text
 
-ShellRoot {
-    // Your shell configuration goes here
-    // This is where you define panels, widgets, etc.
-    //
+PanelWindow {
+  anchors {
+    top: true
+    left: true
+    right: true
+  }
+
+  implicitHeight: 0
+
+  Text {
+    // center the bar in its parent component (the window)
+    anchors.centerIn: parent
+
+    text: "hello world"
+  }
 }
