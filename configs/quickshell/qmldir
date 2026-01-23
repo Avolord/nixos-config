@@ -4,3 +4,4 @@ ClockWidget 1.0 ClockWidget.qml
 CpuWidget 1.0 CpuWidget.qml
 AudioWidget 1.0 AudioWidget.qml
 AudioDeviceSelector 1.0 AudioDeviceSelector.qml
+ReloadPopup 1.0 ReloadPopup.qml

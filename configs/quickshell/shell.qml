@@ -3,6 +3,8 @@ import Quickshell.Wayland
 import QtQuick
 
 ShellRoot {
+    ReloadPopup {}
+
     WallpaperSelector {
         id: wallpaperSelector
     }
