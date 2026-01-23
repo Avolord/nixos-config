@@ -53,7 +53,7 @@ CONFIGS=(
     "quickshell"
     "matugen"
     # "waybar"
-    # "kitty"
+    "kitty"
     # "alacritty"
     # "foot"
     # "wofi"

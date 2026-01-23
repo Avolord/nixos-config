@@ -110,7 +110,6 @@
     wget
     kitty
     rofi
-    waybar
     dunst
     wl-clipboard
     hyprpaper

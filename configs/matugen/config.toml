@@ -5,3 +5,17 @@ set_wallpaper = false  # Let hyprpaper handle this
 [templates.colors]
 input_path = "~/.config/matugen/templates/colors.json"
 output_path = "~/.config/quickshell/colors.json"
+
+[templates.kitty]
+input_path = "~/.config/matugen/templates/kitty-color.conf"
+output_path = '~/.config/kitty/themes/Matugen.conf'
+post_hook = "pkill -SIGUSR1 kitty"
+
+[templates.hyprland]
+input_path = "~/.config/matugen/templates/hyprland-colors.conf"
+output_path = '~/.config/hypr/colors.conf'
+
+[templates.dunst]
+input_path = '~/.config/matugen/templates/dunstrc-colors'
+output_path = '~/.config/dunst/dunstrc'
+post_hook = 'dunstctl reload'
