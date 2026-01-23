@@ -7,6 +7,8 @@
 {
   services.xserver.videoDrivers = ["nvidia"];
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
