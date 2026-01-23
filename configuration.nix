@@ -109,7 +109,7 @@
     git
     wget
     kitty
-    wofi
+    rofi
     waybar
     dunst
     wl-clipboard
@@ -118,7 +118,8 @@
     pavucontrol
     firefox
     vscode
-
+    nemo
+    yazi
   ];
 
   fonts.packages = with pkgs; [ 
@@ -162,6 +163,8 @@
   #  wrapperFeatures.gtk = true;
   #};
 
+  services.gnome.gnome-keyring.enable = true;
+
   programs.hyprland = {
     enable = true;
     withUWSM = true;
@@ -192,6 +195,4 @@
   programs.vscode = {
     enable = true;
   };
-
-  #services.getty.autoLoginUser = "avolord";
 }
