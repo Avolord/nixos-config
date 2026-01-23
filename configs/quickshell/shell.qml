@@ -83,6 +83,13 @@ ShellRoot {
                 }
             }
 
+            // Workspace switcher
+            WorkspaceWidget {
+                anchors.left: wallpaperButton.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
+            }
+
             // Right side widgets
             Row {
                 anchors.right: parent.right
