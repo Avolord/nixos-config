@@ -1,0 +1,2 @@
+@import "colors.rasi"
+@theme "/nix/store/b5j87xnyh2v62r0d43qz2mqj114zndfi-rofi-2.0.0/share/rofi/themes/material.rasi"

@@ -57,7 +57,7 @@ CONFIGS=(
     # "alacritty"
     # "foot"
     # "wofi"
-    # "rofi"
+     "rofi"
     # "dunst"
     # "mako"
 )

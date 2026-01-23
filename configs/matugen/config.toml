@@ -19,3 +19,7 @@ output_path = '~/.config/hypr/colors.conf'
 input_path = '~/.config/matugen/templates/dunstrc-colors'
 output_path = '~/.config/dunst/dunstrc'
 post_hook = 'dunstctl reload'
+
+[templates.rofi]
+input_path = '~/.config/matugen/templates/rofi-colors.rasi'
+output_path = '~/.config/rofi/colors.rasi'
