@@ -123,6 +123,7 @@
     claude-code
     matugen
     ffmpeg
+    pulseaudio
   ];
 
   fonts.packages = with pkgs; [ 
