@@ -120,6 +120,9 @@
     vscode
     nemo
     yazi
+    claude-code
+    matugen
+    ffmpeg
   ];
 
   fonts.packages = with pkgs; [ 
@@ -176,7 +179,7 @@
     settings = {
       default_session = {
         #command = "${pkgs.greetd.regreet}/bin/regreet";
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd start-hyprland";
       };
     };
   };

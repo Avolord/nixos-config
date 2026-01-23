@@ -51,6 +51,7 @@ deploy_config() {
 CONFIGS=(
     "hypr"
     "quickshell"
+    "matugen"
     # "waybar"
     # "kitty"
     # "alacritty"
@@ -73,14 +74,14 @@ echo -e "${GREEN}=== Deployment complete! ===${NC}"
 echo -e "Deployed ${deployed_count} configurations"
 
 # Optional: reload specific services
-echo
-read -p "Reload Hyprland config? (y/N) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    if command -v hyprctl &> /dev/null; then
-        echo "Reloading Hyprland..."
-        hyprctl reload
-    else
-        echo -e "${YELLOW}hyprctl not found, skipping reload${NC}"
-    fi
-fi
+# echo
+# read -p "Reload Hyprland config? (y/N) " -n 1 -r
+# echo
+# if [[ $REPLY =~ ^[Yy]$ ]]; then
+#     if command -v hyprctl &> /dev/null; then
+#         echo "Reloading Hyprland..."
+#         hyprctl reload
+#     else
+#         echo -e "${YELLOW}hyprctl not found, skipping reload${NC}"
+#     fi
+# fi
