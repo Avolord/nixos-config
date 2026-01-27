@@ -38,6 +38,28 @@ in {
     GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     WLR_NO_HARDWARE_CURSORS = "1";
+
+    GTK_THEME = "Adwaita:dark";
+  };
+
+  # Enable dconf for GNOME/GTK settings
+  programs.dconf.enable = true;
+
+  # Set dark mode via dconf (system-wide)
+  programs.dconf.profiles.user.databases = [{
+    settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        gtk-theme = "Adwaita-dark";
+      };
+    };
+  }];
+
+  # Qt theming
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
   };
 
   # Bootloader.
@@ -116,6 +138,7 @@ in {
     hyprpaper
     hyprlock
     hypridle
+    hyprcursor
     networkmanagerapplet
     pavucontrol
     firefox
@@ -126,6 +149,14 @@ in {
     matugen
     ffmpeg
     pulseaudio
+
+    # Theming packages for dark mode
+    gnome-themes-extra
+    adwaita-icon-theme
+    adwaita-qt
+    adwaita-qt6
+    libsForQt5.qtstyleplugin-kvantum
+    qt6Packages.qtstyleplugin-kvantum
   ];
 
   fonts.packages = with pkgs; [ 
@@ -181,8 +212,8 @@ in {
     enable = true;
     settings = {
       default_session = {
-        #command = "${pkgs.greetd.regreet}/bin/regreet";
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd start-hyprland";
+        command = "${pkgs.greetd}/bin/agreety --cmd start-hyprland";
+        user = "avolord";
       };
     };
   };
