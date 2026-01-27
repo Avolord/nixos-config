@@ -5,8 +5,8 @@ import QtQuick
 ShellRoot {
     ReloadPopup {}
 
-    WallpaperSelector {
-        id: wallpaperSelector
+    ModeSelector {
+        id: modeSelector
     }
 
     AudioDeviceSelector {
@@ -51,16 +51,16 @@ ShellRoot {
                 )
             }
 
-            // Wallpaper button on the left
+            // Mode selector button on the left
             Rectangle {
-                id: wallpaperButton
+                id: modeButton
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 10
                 width: 28
                 height: 22
                 radius: 4
-                color: wallpaperMouseArea.containsMouse ? Qt.rgba(
+                color: modeMouseArea.containsMouse ? Qt.rgba(
                     ColorService.primary.r,
                     ColorService.primary.g,
                     ColorService.primary.b,
@@ -69,23 +69,23 @@ ShellRoot {
 
                 Text {
                     anchors.centerIn: parent
-                    text: "\uf03e" // fa-image
+                    text: "\uf042" // fa-adjust (half-filled circle for light/dark)
                     color: ColorService.foregroundSurface
                     font.family: "FiraCode Nerd Font"
                     font.pixelSize: 14
                 }
 
                 MouseArea {
-                    id: wallpaperMouseArea
+                    id: modeMouseArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: wallpaperSelector.visible = !wallpaperSelector.visible
+                    onClicked: modeSelector.visible = !modeSelector.visible
                 }
             }
 
             // Workspace switcher
             WorkspaceWidget {
-                anchors.left: wallpaperButton.right
+                anchors.left: modeButton.right
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 10
             }
