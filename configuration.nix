@@ -2,9 +2,10 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
-
-{
+{ config, pkgs, spicetify-nix, ... }:
+let 
+  spicePkgs = spicetify-nix.legacyPackages.${pkgs.system};
+in {
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [ "https://cache.nixos-cuda.org" ];
@@ -113,6 +114,7 @@
     dunst
     wl-clipboard
     hyprpaper
+    hyprlock
     networkmanagerapplet
     pavucontrol
     firefox
@@ -197,5 +199,35 @@
 
   programs.vscode = {
     enable = true;
+  };
+
+  programs.spicetify = {
+    enable = true;
+    
+    # Point to matugen's output directory as a custom theme
+    theme = {
+      name = "Sleek";
+      src = pkgs.fetchFromGitHub {
+        owner = "spicetify";
+        repo = "spicetify-themes";
+        rev = "8bd7e49d5ac62756bee6e4b02221fb96bfc3c99a";
+        hash = "sha256-mP4YXeXtOR7+YA8KmRMOEsxjPhjPiyId1gpatlvK/5M=";  # You'll need to get the real hash
+      };
+      appendName = true;  # Appends "/Sleek" to the src path
+      
+      # This tells spicetify to use your matugen-generated colors
+      replaceColors = true;
+      overwriteAssets = false;
+      
+      # Point to where matugen will generate the color.ini
+      injectCss = true;
+      injectThemeJs = true;
+    };
+    
+    enabledExtensions = with spicePkgs.extensions; [
+      adblock
+      hidePodcasts
+      shuffle
+    ];
   };
 }
