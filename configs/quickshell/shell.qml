@@ -1,107 +1,145 @@
 import Quickshell
 import Quickshell.Wayland
 import QtQuick
+import QtQuick.Effects
+import "." as Local
 
 ShellRoot {
-    ReloadPopup {}
-
-    ModeSelector {
-        id: modeSelector
-    }
-
-    AudioDeviceSelector {
-        id: audioDeviceSelector
-    }
-
     PanelWindow {
-        id: root
+        id: bar
 
-        anchors.top: true
-        anchors.left: true
-        anchors.right: true
-        implicitHeight: 34
+        anchors {
+            top: true
+            left: true
+            right: true
+        }
 
-        // Transparent background for blur to show through
+        margins {
+            top: 8
+            left: 12
+            right: 12
+        }
+
+        implicitHeight: 40
+
+        // Transparent window background
         color: "transparent"
 
-        // Content layer
+        // Wayland layering
+        WlrLayershell.namespace: "quickshell"
+        WlrLayershell.layer: WlrLayer.Top
+
+        // Main bar container
         Rectangle {
-            id: panelBackground
+            id: barContainer
             anchors.fill: parent
+            anchors.margins: 2
 
-            // Semi-transparent frosted glass effect
-            color: Qt.rgba(
-                ColorService.surface.r,
-                ColorService.surface.g,
-                ColorService.surface.b,
-                0.7
-            )
+            color: Local.Colors.surface_container_lowest
+            radius: 4
 
-            // Bottom border
+            // Inner glow border effect
             Rectangle {
+                anchors.fill: parent
+                color: "transparent"
+                radius: parent.radius
+                border.width: 1
+                border.color: Local.Colors.primary
+
+                // Outer glow layer
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.margins: -1
+                    color: "transparent"
+                    radius: parent.radius + 1
+                    border.width: 1
+                    border.color: Qt.rgba(
+                        Local.Colors.primary.r,
+                        Local.Colors.primary.g,
+                        Local.Colors.primary.b,
+                        0.3
+                    )
+                }
+            }
+
+            // Corner accents - top left
+            Rectangle {
+                width: 12
+                height: 2
+                color: Local.Colors.primary
                 anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: -1
+                anchors.topMargin: -1
+            }
+            Rectangle {
+                width: 2
+                height: 12
+                color: Local.Colors.primary
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: -1
+                anchors.topMargin: -1
+            }
+
+            // Corner accents - top right
+            Rectangle {
+                width: 12
+                height: 2
+                color: Local.Colors.primary
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.rightMargin: -1
+                anchors.topMargin: -1
+            }
+            Rectangle {
+                width: 2
+                height: 12
+                color: Local.Colors.primary
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.rightMargin: -1
+                anchors.topMargin: -1
+            }
+
+            // Corner accents - bottom left
+            Rectangle {
+                width: 12
+                height: 2
+                color: Local.Colors.primary
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: -1
+                anchors.bottomMargin: -1
+            }
+            Rectangle {
+                width: 2
+                height: 12
+                color: Local.Colors.primary
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: -1
+                anchors.bottomMargin: -1
+            }
+
+            // Corner accents - bottom right
+            Rectangle {
+                width: 12
+                height: 2
+                color: Local.Colors.primary
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                height: 1
-                color: Qt.rgba(
-                    ColorService.primary.r,
-                    ColorService.primary.g,
-                    ColorService.primary.b,
-                    0.5
-                )
+                anchors.rightMargin: -1
+                anchors.bottomMargin: -1
             }
-
-            // Mode selector button on the left
             Rectangle {
-                id: modeButton
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: 10
-                width: 28
-                height: 22
-                radius: 4
-                color: modeMouseArea.containsMouse ? Qt.rgba(
-                    ColorService.primary.r,
-                    ColorService.primary.g,
-                    ColorService.primary.b,
-                    0.3
-                ) : "transparent"
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "\uf042" // fa-adjust (half-filled circle for light/dark)
-                    color: ColorService.foregroundSurface
-                    font.family: "FiraCode Nerd Font"
-                    font.pixelSize: 14
-                }
-
-                MouseArea {
-                    id: modeMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: modeSelector.visible = !modeSelector.visible
-                }
-            }
-
-            // Workspace switcher
-            WorkspaceWidget {
-                anchors.left: modeButton.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.leftMargin: 10
-            }
-
-            // Right side widgets
-            Row {
+                width: 2
+                height: 12
+                color: Local.Colors.primary
                 anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.rightMargin: 10
-                spacing: 8
-
-                AudioWidget {
-                    audioSelector: audioDeviceSelector
-                }
-                CpuWidget {}
-                ClockWidget {}
+                anchors.bottom: parent.bottom
+                anchors.rightMargin: -1
+                anchors.bottomMargin: -1
             }
         }
     }
