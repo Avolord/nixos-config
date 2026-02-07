@@ -15,7 +15,7 @@ PanelWindow {
     }
 
     margins {
-        top: 44
+        top: 10
         left: 10
     }
 
@@ -24,14 +24,29 @@ PanelWindow {
 
     color: "transparent"
 
-    property string wallpaperPath: Quickshell.env("HOME") + "/nixos/wallpapers/flower.png"
-    property string baseColor: "#ffffff"
     property string currentMode: "dark"
+    property string currentWallpaper: ""
+    property string currentColor: ""
+
+    // Mode configurations
+    readonly property var modeConfigs: ({
+        "light": {
+            wallpaper: Quickshell.env("HOME") + "/nixos/wallpapers/house.png",
+            color: "#ffb366"  // light orange
+        },
+        "dark": {
+            wallpaper: Quickshell.env("HOME") + "/nixos/wallpapers/flower.png",
+            color: "#ffffff"
+        }
+    })
 
     function applyMode(mode) {
         console.log("Applying mode:", mode)
         currentMode = mode
+        currentWallpaper = modeConfigs[mode].wallpaper
+        currentColor = modeConfigs[mode].color
         matugenProcess.mode = mode
+        matugenProcess.color = currentColor
         matugenProcess.running = true
         modePopup.visible = false
     }
@@ -48,7 +63,8 @@ PanelWindow {
     Process {
         id: matugenProcess
         property string mode: "dark"
-        command: ["matugen", "color", "hex", baseColor, "--mode", mode]
+        property string color: "#ffffff"
+        command: ["matugen", "color", "hex", color, "--mode", mode]
 
         onExited: code => {
             if (code === 0) {
@@ -61,7 +77,20 @@ PanelWindow {
     // Process for hyprpaper - still sets the wallpaper
     Process {
         id: hyprpaperProcess
-        command: ["hyprctl", "hyprpaper", "wallpaper", "," + wallpaperPath]
+        command: ["hyprctl", "hyprpaper", "wallpaper", "," + currentWallpaper]
+
+        onExited: code => {
+            if (code === 0) {
+                // Save current wallpaper as symlink for hyprpaper.conf
+                saveWallpaperProcess.running = true
+            }
+        }
+    }
+
+    // Process to save current wallpaper as symlink
+    Process {
+        id: saveWallpaperProcess
+        command: ["ln", "-sf", currentWallpaper, Quickshell.env("HOME") + "/.config/hypr/current_wallpaper"]
     }
 
     Rectangle {
