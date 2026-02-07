@@ -8,6 +8,19 @@
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [ "https://cache.nixos-cuda.org" ];
     trusted-public-keys = [ "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M=" ];
+    auto-optimise-store = true;
+  };
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk ];
+    config.common.default = "*";
   };
 
   imports =
@@ -38,6 +51,17 @@
     WLR_NO_HARDWARE_CURSORS = "1";
 
     GTK_THEME = "Adwaita:dark";
+
+    NIXOS_OZONE_WL = "1";          # Electron apps use Wayland natively
+    QT_QPA_PLATFORM = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";       # Firefox Wayland (usually auto, but explicit is safer)
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ ];
+    allowedUDPPorts = [ ];
   };
 
   # Enable dconf for GNOME/GTK settings
@@ -58,6 +82,11 @@
     enable = true;
     platformTheme = "gnome";
     style = "adwaita-dark";
+  };
+
+  services.fstrim = {
+    enable = true;
+    interval = "weekly";
   };
 
   # Bootloader.
@@ -166,24 +195,18 @@
     nerd-fonts.droid-sans-mono
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  boot.kernel.sysctl = {
+    "kernel.sysrq" = 1;              # enable magic SysRq (useful for frozen systems)
+    "net.ipv4.conf.all.rp_filter" = 1; # reverse path filtering
+  };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  security.sudo.extraRules = [{
+    users = [ "avolord" ];
+    commands = [{
+      command = "/run/current-system/sw/bin/nixos-rebuild";
+      options = [ "NOPASSWD" ];
+    }];
+  }];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -212,10 +235,21 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd}/bin/agreety --cmd start-hyprland";
-        user = "avolord";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd 'start-hyprland'";
+        user = "greeter";
       };
     };
+  };
+
+  # Suppress greetd logs on tty1
+  systemd.services.greetd.serviceConfig = {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal";
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
   };
 
   security.polkit.enable = true;
