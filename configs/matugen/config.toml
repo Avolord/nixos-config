@@ -2,9 +2,9 @@
 reload_apps = true
 set_wallpaper = false  # Let hyprpaper handle this
 
-[templates.colors]
-input_path = "~/.config/matugen/templates/colors.json"
-output_path = "~/.config/quickshell/colors.json"
+[templates.quickshell]
+input_path = "~/.config/matugen/templates/quickshell.qml"
+output_path = "~/nixos/configs/quickshell/Colors.qml"
 
 [templates.kitty]
 input_path = "~/.config/matugen/templates/kitty-color.conf"
